@@ -1,0 +1,20 @@
+action_factory: null
+actions:
+- utter_answer
+- action.ExecuteQueryAction
+config:
+  store_entities_as_slots: true
+entities:
+- predicate
+- object
+intents:
+- inform
+slots:
+  object:
+    type: text
+  predicate:
+    type: text
+templates:
+  utter_answer:
+  - text: Let me see what I can find!
+topics: []
