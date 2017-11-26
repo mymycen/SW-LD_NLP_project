@@ -1,0 +1,15 @@
+slots:
+  predicate:
+    type: text
+  object:
+    type: text
+
+intents:
+ - inform
+
+entities:
+ - predicate
+ - object
+
+actions:
+  - action.ExecuteQueryAction
