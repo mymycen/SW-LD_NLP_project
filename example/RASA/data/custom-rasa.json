@@ -3,11 +3,11 @@
     "common_examples": [
       {
         "text": "What is the capital of Germany?",
-        "intent": "inform",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 22,
+            "end": 19,
             "value": "capital",
             "entity": "predicate"
           },
@@ -20,36 +20,90 @@
         ]
       },
       {
-        "text": "What is the population of Berlin?",
-        "intent": "inform",
+        "text": "What is the population of Germany?",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 25,
+            "end": 22,
             "value": "population",
             "entity": "predicate"
           },
           {
             "start": 26,
-            "end": 32,
+            "end": 33,
+            "value": "Germany",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leader of Germany?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 17,
+            "value": "leader",
+            "entity": "predicate"
+          },
+          {
+            "start": 21,
+            "end": 28,
+            "value": "Germany",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leading party of Germany?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 24,
+            "value": "leading party",
+            "entity": "predicate"
+          },
+          {
+            "start": 28,
+            "end": 35,
+            "value": "Germany",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "What is the postal code of Berlin?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 12,
+            "end": 23,
+            "value": "postal code",
+            "entity": "predicate"
+          },
+          {
+            "start": 27,
+            "end": 33,
             "value": "Berlin",
             "entity": "object"
           }
         ]
       },
       {
-        "text": "What is the country of Berlin?",
-        "intent": "inform",
+        "text": "In what country is Berlin located?",
+        "intent": "question",
         "entities": [
           {
-            "start": 12,
-            "end": 22,
+            "start": 8,
+            "end": 15,
             "value": "country",
             "entity": "predicate"
           },
           {
-            "start": 23,
-            "end": 29,
+            "start": 19,
+            "end": 25,
             "value": "Berlin",
             "entity": "object"
           }
@@ -57,11 +111,11 @@
       },
       {
         "text": "What is the capital of France?",
-        "intent": "inform",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 22,
+            "end": 19,
             "value": "capital",
             "entity": "predicate"
           },
@@ -74,36 +128,90 @@
         ]
       },
       {
-        "text": "What is the population of Paris?",
-        "intent": "inform",
+        "text": "What is the population of France?",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 25,
+            "end": 22,
             "value": "population",
             "entity": "predicate"
           },
           {
             "start": 26,
-            "end": 31,
+            "end": 32,
             "value": "Paris",
             "entity": "object"
           }
         ]
       },
       {
-        "text": "What is the country of Paris?",
-        "intent": "inform",
+        "text": "Who is the leader of France?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 17,
+            "value": "leader",
+            "entity": "predicate"
+          },
+          {
+            "start": 21,
+            "end": 27,
+            "value": "France",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leading party of France?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 24,
+            "value": "leading party",
+            "entity": "predicate"
+          },
+          {
+            "start": 28,
+            "end": 34,
+            "value": "France",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "What is the postal code of Paris?",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 22,
+            "end": 23,
+            "value": "postal code",
+            "entity": "predicate"
+          },
+          {
+            "start": 27,
+            "end": 32,
+            "value": "Paris",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "In what country is Paris located?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 8,
+            "end": 15,
             "value": "country",
             "entity": "predicate"
           },
           {
-            "start": 23,
-            "end": 28,
+            "start": 19,
+            "end": 24,
             "value": "Paris",
             "entity": "object"
           }
@@ -111,11 +219,11 @@
       },
       {
         "text": "What is the capital of Ireland?",
-        "intent": "inform",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 22,
+            "end": 19,
             "value": "capital",
             "entity": "predicate"
           },
@@ -128,37 +236,199 @@
         ]
       },
       {
-        "text": "What is the population of Dublin?",
-        "intent": "inform",
+        "text": "What is the population of Ireland?",
+        "intent": "question",
         "entities": [
           {
             "start": 12,
-            "end": 25,
+            "end": 22,
             "value": "population",
             "entity": "predicate"
           },
           {
             "start": 26,
-            "end": 32,
+            "end": 33,
+            "value": "Ireland",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leader of Ireland?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 17,
+            "value": "leader",
+            "entity": "predicate"
+          },
+          {
+            "start": 21,
+            "end": 28,
+            "value": "Ireland",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leading party of Ireland?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 24,
+            "value": "leading party",
+            "entity": "predicate"
+          },
+          {
+            "start": 28,
+            "end": 35,
+            "value": "Ireland",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "What is the postal code of Dublin?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 12,
+            "end": 23,
+            "value": "postal code",
+            "entity": "predicate"
+          },
+          {
+            "start": 27,
+            "end": 33,
             "value": "Dublin",
             "entity": "object"
           }
         ]
       },
       {
-        "text": "What is the country of Dublin?",
-        "intent": "inform",
+        "text": "In what country is Dublin located?",
+        "intent": "question",
         "entities": [
           {
-            "start": 12,
-            "end": 22,
+            "start": 8,
+            "end": 15,
             "value": "country",
             "entity": "predicate"
           },
           {
-            "start": 23,
-            "end": 29,
+            "start": 19,
+            "end": 25,
             "value": "Dublin",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "What is the capital of Great Britain?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 12,
+            "end": 19,
+            "value": "capital",
+            "entity": "predicate"
+          },
+          {
+            "start": 23,
+            "end": 36,
+            "value": "Great Britain",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "What is the population of Great Britain?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 12,
+            "end": 22,
+            "value": "population",
+            "entity": "predicate"
+          },
+          {
+            "start": 26,
+            "end": 39,
+            "value": "Great Britain",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leader of Great Britain?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 17,
+            "value": "leader",
+            "entity": "predicate"
+          },
+          {
+            "start": 21,
+            "end": 34,
+            "value": "Great Britain",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "Who is the leading party of Great Britain?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 11,
+            "end": 24,
+            "value": "leading party",
+            "entity": "predicate"
+          },
+          {
+            "start": 28,
+            "end": 41,
+            "value": "Great Britain",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "What is the postal code of London?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 12,
+            "end": 23,
+            "value": "postal code",
+            "entity": "predicate"
+          },
+          {
+            "start": 27,
+            "end": 33,
+            "value": "London",
+            "entity": "object"
+          }
+        ]
+      },
+      {
+        "text": "In what country is London located?",
+        "intent": "question",
+        "entities": [
+          {
+            "start": 8,
+            "end": 15,
+            "value": "country",
+            "entity": "predicate"
+          },
+          {
+            "start": 19,
+            "end": 25,
+            "value": "London",
             "entity": "object"
           }
         ]

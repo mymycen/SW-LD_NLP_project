@@ -5,7 +5,7 @@ slots:
     type: text
 
 intents:
- - inform
+ - question
 
 entities:
  - predicate

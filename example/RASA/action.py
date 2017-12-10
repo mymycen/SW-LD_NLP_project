@@ -1,6 +1,7 @@
 from rasa_core.actions import Action
 from SPARQLWrapper import SPARQLWrapper, JSON
 
+import json
 
 
 class ExecuteQueryAction(Action):
@@ -17,12 +18,16 @@ class ExecuteQueryAction(Action):
         sparql.setReturnFormat(JSON)
 
         query = self.build_query(objectPhrase, predicatePhrase)
-        print query
 
         sparql.setQuery(query)
-        print sparql.query().convert()
 
-        dispatcher.utter_message('Your looking for the ' + predicatePhrase + ' of ' + objectPhrase)
+        data = {}
+        data['slots'] = tracker.current_slot_values()
+        data['message'] = tracker.latest_message.parse_data
+        data['query'] = query
+        data['response'] = sparql.query().convert()
+
+        dispatcher.utter_message(json.dumps(data))
 
         return []
 
