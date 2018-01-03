@@ -15,7 +15,7 @@
             "start": 23,
             "end": 30,
             "value": "Germany",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -33,7 +33,7 @@
             "start": 26,
             "end": 33,
             "value": "Germany",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -51,7 +51,7 @@
             "start": 21,
             "end": 28,
             "value": "Germany",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -69,7 +69,7 @@
             "start": 28,
             "end": 35,
             "value": "Germany",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -87,7 +87,7 @@
             "start": 27,
             "end": 33,
             "value": "Berlin",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -105,7 +105,7 @@
             "start": 19,
             "end": 25,
             "value": "Berlin",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -123,7 +123,7 @@
             "start": 23,
             "end": 29,
             "value": "France",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -141,7 +141,7 @@
             "start": 26,
             "end": 32,
             "value": "Paris",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -159,7 +159,7 @@
             "start": 21,
             "end": 27,
             "value": "France",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -177,7 +177,7 @@
             "start": 28,
             "end": 34,
             "value": "France",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -195,7 +195,7 @@
             "start": 27,
             "end": 32,
             "value": "Paris",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -213,7 +213,7 @@
             "start": 19,
             "end": 24,
             "value": "Paris",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -231,7 +231,7 @@
             "start": 23,
             "end": 30,
             "value": "Ireland",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -249,7 +249,7 @@
             "start": 26,
             "end": 33,
             "value": "Ireland",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -267,7 +267,7 @@
             "start": 21,
             "end": 28,
             "value": "Ireland",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -285,7 +285,7 @@
             "start": 28,
             "end": 35,
             "value": "Ireland",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -303,7 +303,7 @@
             "start": 27,
             "end": 33,
             "value": "Dublin",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -321,7 +321,7 @@
             "start": 19,
             "end": 25,
             "value": "Dublin",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -339,7 +339,7 @@
             "start": 23,
             "end": 36,
             "value": "Great Britain",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -357,7 +357,7 @@
             "start": 26,
             "end": 39,
             "value": "Great Britain",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -375,7 +375,7 @@
             "start": 21,
             "end": 34,
             "value": "Great Britain",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -393,7 +393,7 @@
             "start": 28,
             "end": 41,
             "value": "Great Britain",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -411,7 +411,7 @@
             "start": 27,
             "end": 33,
             "value": "London",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       },
@@ -429,7 +429,7 @@
             "start": 19,
             "end": 25,
             "value": "London",
-            "entity": "object"
+            "entity": "subject"
           }
         ]
       }

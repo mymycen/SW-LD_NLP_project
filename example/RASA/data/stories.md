@@ -1,3 +1,3 @@
 ## path
-* _inform[predicate=capital,object=Germany]
+* _question[predicate=capital,subject=Germany]
   - action_execute_query

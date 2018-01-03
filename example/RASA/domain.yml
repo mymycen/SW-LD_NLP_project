@@ -1,7 +1,7 @@
 slots:
   predicate:
     type: text
-  object:
+  subject:
     type: text
 
 intents:
@@ -9,7 +9,7 @@ intents:
 
 entities:
  - predicate
- - object
+ - subject
 
 actions:
   - action.ExecuteQueryAction

@@ -11,7 +11,7 @@ class ExecuteQueryAction(Action):
     # the run executes when the action is called
     def run(self, dispatcher, tracker, domain):
         # get the location entity from the console
-        objectPhrase = tracker.get_slot('object')
+        objectPhrase = tracker.get_slot('subject')
         predicatePhrase = tracker.get_slot('predicate')
 
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
@@ -26,6 +26,8 @@ class ExecuteQueryAction(Action):
         data['message'] = tracker.latest_message.parse_data
         data['query'] = query
         data['response'] = sparql.query().convert()
+
+        print json.dumps(data)
 
         dispatcher.utter_message(json.dumps(data))
 
