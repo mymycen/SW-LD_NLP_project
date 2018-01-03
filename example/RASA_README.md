@@ -35,7 +35,7 @@ Install Rasa Core
 pip install rasa_core
 ```
 
-Replace the _Rasa Core/run.py_ in _venv/lib/python2.7/site-packages/rasa_core_
+Replace the _Rasa Core/run.py_ in _venv/lib/python2.7/site-packages/rasa_core_  
 Add the _Rasa Core/bot.py_ to _venv/lib/python2.7/site-packages/rasa_core/channels_
 
 ### Running Rasa Core
