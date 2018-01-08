@@ -9,10 +9,16 @@ public class backendController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/nlp")
-    public initBackend startAnalyze(@RequestParam String subject,@RequestParam String predicate) {
+    public initBackend startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String onlyMatch) {
         initBackend a = new initBackend(subject,
                 predicate);
-        a.lookup();
+        try{
+            boolean userOption = Boolean.parseBoolean(onlyMatch);
+            a.lookup(userOption);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         return new initBackend(subject,
                 predicate);

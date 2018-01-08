@@ -2,6 +2,7 @@ from rasa_core.actions import Action
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 import json
+import requests
 
 
 class ExecuteQueryAction(Action):
@@ -13,6 +14,10 @@ class ExecuteQueryAction(Action):
         # get the location entity from the console
         objectPhrase = tracker.get_slot('subject')
         predicatePhrase = tracker.get_slot('predicate')
+	resp = requests.get('http://localhost:8080/nlp?subject'+objectPhrase+'=&predicate='+predicatePhrase},)
+    if resp.status_code != 200:
+      checker = 0
+      raise ApiError('GET /tasks/ {}'.format(resp.status_code))
 
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
         sparql.setReturnFormat(JSON)

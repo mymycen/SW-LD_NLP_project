@@ -4,6 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class test {
     public static void main(String[] args) {
-        SpringApplication.run(test.class, args);
+        //SpringApplication.run(test.class, args);
+        initBackend a = new initBackend("England","population");
+        a.lookup(false);
+
     }
 }
