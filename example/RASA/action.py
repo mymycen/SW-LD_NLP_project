@@ -13,12 +13,15 @@ class ExecuteQueryAction(Action):
     def run(self, dispatcher, tracker, domain):
         # get the location entity from the console
         objectPhrase = tracker.get_slot('subject')
+	print(objectPhrase)
         predicatePhrase = tracker.get_slot('predicate')
-        resp = requests.get('http://localhost:8080/nlp?subject'+objectPhrase+'=&predicate='+predicatePhrase,)
-    	  
+	print(predicatePhrase)
+        resp = requests.get('http://localhost:8080/nlp?subject='+objectPhrase+'&predicate='+predicatePhrase+'&onlyMatch=True',)    	  
         if resp.status_code != 200:
-         checker = 0
-         raise ApiError('GET /tasks/ {}'.format(resp.status_code))
+          raise resp.status_code
+	print "============================"
+	print resp.text
+	print "============================"
 
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
         sparql.setReturnFormat(JSON)

@@ -1,5 +1,6 @@
 package initBackend;
 
+import com.google.gson.Gson;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 import org.apache.jena.base.Sys;
@@ -55,11 +56,10 @@ public class initBackend {
             returnObj = jsonObj3.get("uri").toString();
             //System.out.println(returnObj+"  ____________");
             String resultQuery = query(returnObj,predicate);
-            if(resultQuery!=null){
+            if(resultQuery!=null && onlyMatch==true){
                 System.out.println(resultQuery+"  _______XXXX_____");
-                if(onlyMatch==true){
                 return resultQuery;}
-            }else {
+                else {
                 String[] splited = returnObj.split("/");
                 for(int l=0;l<splited.length;l++){
                     if(splited[l].equals("resource")){
@@ -71,21 +71,76 @@ public class initBackend {
                         }
                     }
                 }
-               // System.out.println(returnObj+" helloooooooo");
-               // System.out.println(newSubj+" helloooooooo");
+                // System.out.println(returnObj+" helloooooooo");
+                // System.out.println(newSubj+" helloooooooo");
                 ArrayList responsePred = getPredicate(newSubj,predicate);
+                for(int i =0;i<responsePred.size();i++){
+                    if (responsePred.get(i).equals(subject)){
+                        responsePred.remove(i);
+                    }
+                }
+                String json = new Gson().toJson(responsePred);
                 //***********Call index backend********
                 //use subject from global
                 //predicate will be list from possible dictionary
 
-
+                return json;
             }
-
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     return returnObj;
+    }
+    public String lookup(){
+        String newSubj=null;
+        final String uri = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryString="+subject;
+        String returnObj = null;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        try {
+
+            JSONObject jsonObj = new JSONObject(result);
+            JSONArray jsonObj2 = jsonObj.getJSONArray("results");
+
+            JSONObject jsonObj3 = new JSONObject(jsonObj2.getString(0));
+
+            returnObj = jsonObj3.get("uri").toString();
+
+
+                String[] splited = returnObj.split("/");
+                for(int l=0;l<splited.length;l++){
+                    if(splited[l].equals("resource")){
+                        try{
+                            newSubj=splited[l+1];
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            newSubj=subject;
+                        }
+                    }
+                }
+                // System.out.println(returnObj+" helloooooooo");
+                // System.out.println(newSubj+" helloooooooo");
+                ArrayList responsePred = getPredicate(newSubj,predicate);
+                for(int i =0;i<responsePred.size();i++){
+                    if (responsePred.get(i).equals(subject)){
+                        responsePred.remove(i);
+                    }
+                }
+                String json = new Gson().toJson(responsePred);
+                //***********Call index backend********
+                //use subject from global
+                //predicate will be list from possible dictionary
+
+                return json;
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "An error occur";
     }
     public String query(String lookupRes,String pred){
         String query = "select * where {<"+lookupRes+"> ?property ?value}";
@@ -182,7 +237,7 @@ public class initBackend {
             e.printStackTrace();
         }
         for(int a =0;a<responsePred.size();a++){
-            System.out.println(responsePred.get(a)+" subject index : "+ a);
+            System.out.println(responsePred.get(a)+" predicate index : "+ a);
         }
         if(responsePred.size()<1){
             responsePred.add(predicate);
