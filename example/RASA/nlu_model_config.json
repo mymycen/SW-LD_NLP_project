@@ -1,6 +1,0 @@
-{
-  "pipeline": "spacy_sklearn",
-  "path" : "./project",
-  "project": "nlu",
-  "data" : "./data/custom-rasa.json"
-}
