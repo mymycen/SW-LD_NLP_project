@@ -143,7 +143,7 @@ public class initBackend {
         return "An error occur";
     }
     public String query(String lookupRes,String pred){
-        String query = "select * where {<"+lookupRes+"> ?property ?value}";
+        String query = "select ?property ?hasValue where {<"+lookupRes+"> ?property ?hasValue} ";
         String response=null;
         try {
             Query queryR = QueryFactory.create(query);
@@ -152,7 +152,8 @@ public class initBackend {
             for ( ; results.hasNext() ; ) {
                 QuerySolution soln = results.nextSolution() ;
                 System.out.println(soln);
-                if(soln.toString().contains("http://dbpedia.org/property/"+pred+">")){
+                if(soln.toString().contains("http://dbpedia.org/property/"+pred+">")||soln.toString().contains("http://dbpedia.org/ontology/"+pred+">")){
+                    System.out.println(" ******************** ");
 
                     String temp = soln.toString().substring(soln.toString().lastIndexOf("= ") + 1);
                     String[] res = temp.split("\\)");

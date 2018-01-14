@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class test {
     public static void main(String[] args) {
         SpringApplication.run(test.class, args);
-        //initBackend a = new initBackend("England","capital");
-        //String x = a.lookup(false);
-
+        //initBackend a = new initBackend("Germany","capital");
+        //String x = a.lookup(true);
+        //System.out.println(x+"  <<<");
     }
 }
