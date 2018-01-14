@@ -32,7 +32,7 @@ class MessageHandler:
             elif entity['entity'] == 'predicate':
                 predicate = entity['value']
 
-        resp = requests.get('http://localhost:8080/nlp?subject=' + subject + '&predicate=' + predicate + '&onlyMatch=True')
+        resp = requests.get('http://localhost:8080/nlp?message=' + message + '&subject=' + subject + '&predicate=' + predicate + '&onlyMatch=True')
         if resp.status_code != 200:
             raise resp.status_code
 
