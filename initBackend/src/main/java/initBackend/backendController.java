@@ -8,8 +8,8 @@ public class backendController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping(value = "/nlp",params = {"subject","predicate","onlyMatch"})
-    public String startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String onlyMatch) {
+    @RequestMapping(value = "/nlp",params = {"message","subject","predicate","onlyMatch"})
+    public String startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String onlyMatch,@RequestParam String message) {
         initBackend a = new initBackend(subject,
                 predicate);
         try{
@@ -24,8 +24,8 @@ public class backendController {
         return "An error occur while searching";
     }
 
-    @RequestMapping(value = "/nlp",params = {"subject","predicate"})
-    public String startAnalyze(@RequestParam String subject,@RequestParam String predicate) {
+    @RequestMapping(value = "/nlp",params = {"message","subject","predicate"})
+    public String startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String message) {
         initBackend a = new initBackend(subject,
                 predicate);
         try{
