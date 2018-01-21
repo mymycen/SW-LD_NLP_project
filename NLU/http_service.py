@@ -1,10 +1,10 @@
 from flask import Flask, request
 from message_handler import MessageHandler
 
-import argparse
 
 app = Flask(__name__)
 handler = None
+
 
 @app.route("/service", methods=['GET', 'POST'])
 def converse():
@@ -15,6 +15,7 @@ def converse():
 
     response = handler.handle_message(query)
     return response, {'Content-Type': 'application/json'}
+
 
 if __name__ == "__main__":
     handler = MessageHandler()
