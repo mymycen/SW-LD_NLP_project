@@ -7,6 +7,9 @@ import org.apache.jena.base.Sys;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
 import org.springframework.web.client.RestTemplate;
 import net.sf.extjwnl.JWNLException;
 import net.sf.extjwnl.data.IndexWord;
@@ -23,6 +26,7 @@ import net.sf.extjwnl.dictionary.Dictionary;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -31,18 +35,19 @@ import com.hp.hpl.jena.sparql.core.DatasetImpl;
 
 
 public class initBackend {
-    private final String subject;
-    private final String predicate;
+    private  String subject;
+    private  String predicate;
+    private  String sentence;
 
-
-    public initBackend(String subject, String predicate) {
+    public initBackend(String subject, String predicate,String sentence) {
         this.subject = subject;
+        this.sentence = sentence;
         this.predicate = predicate;
 
     }
     public String lookup(boolean onlyMatch){
         String newSubj=null;
-        final String uri = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryString="+subject;
+        final String uri = "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryString="+subject;
         String returnObj = null;
     RestTemplate restTemplate = new RestTemplate();
     String result = restTemplate.getForObject(uri, String.class);
@@ -57,7 +62,7 @@ public class initBackend {
             //System.out.println(returnObj+"  ____________");
             String resultQuery = query(returnObj,predicate);
             if(resultQuery!=null && onlyMatch==true){
-                System.out.println(resultQuery+"  _______XXXX_____");
+                System.out.println(resultQuery+"  _______result_____");
                 return resultQuery;}
                 else {
                 String[] splited = returnObj.split("/");
@@ -73,12 +78,54 @@ public class initBackend {
                 }
                 // System.out.println(returnObj+" helloooooooo");
                 // System.out.println(newSubj+" helloooooooo");
+//                JLanguageTool langTool = null;
+//                try {
+//                    langTool = new JLanguageTool(Language.AMERICAN_ENGLISH);
+//                    langTool.activateDefaultPatternRules();
+//                    List<RuleMatch> matches = langTool.check(predicate);
+//                    int k=0;
+//
+//                    for (RuleMatch match : matches) {
+//
+//                               if(k==1){
+//                                   System.out.println("======+!!!!!!!++++");
+//                                   System.out.println(predicate);
+//                                    String temp = predicate;
+//                                   predicate = match.getSuggestedReplacements().toString().substring(1,match.getSuggestedReplacements().toString().length()-1);
+//                                   String[] testSpilt = predicate.split(",");
+//
+//                                   predicate = testSpilt[0];
+//                                   sentence.replaceAll(temp,predicate);
+//                                   System.out.println("======+!!!!!!!++++");
+//                                   System.out.println(predicate);
+//                                   System.out.println(sentence);
+//                               }
+//
+//
+//                                k++;
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+
+
                 ArrayList responsePred = getPredicate(newSubj,predicate);
-                for(int i =0;i<responsePred.size();i++){
-                    if (responsePred.get(i).equals(subject)){
+
+                for(int i =responsePred.size()-1;i>=0;i--){
+                    if (responsePred.get(i).equals(subject)||responsePred.get(i).equals("abstraction")||responsePred.get(i).equals("abstract entity")
+                            || responsePred.get(i).equals("attribute")||responsePred.get(i).equals("physical property")||responsePred.get(i).equals("property")
+                            ||responsePred.get(i).equals("entity")||responsePred.get(i).equals("physical entity")){
                         responsePred.remove(i);
+                    }else {
+                        System.out.println("TESTTT!!!!!!!!"+responsePred.get(0));
+                        String tempForIndexing = sentence.replaceAll(subject,newSubj);
+                        tempForIndexing = tempForIndexing.replaceAll(predicate,responsePred.get(i).toString());
+                        System.out.println("Begining new Subj,pred =======");
+                        System.out.println(tempForIndexing);
+                        System.out.println("Ending new Subj,pred =======");
                     }
                 }
+
                 String json = new Gson().toJson(responsePred);
                 //***********Call index backend********
                 //use subject from global
@@ -125,6 +172,8 @@ public class initBackend {
                 for(int i =0;i<responsePred.size();i++){
                     if (responsePred.get(i).equals(subject)){
                         responsePred.remove(i);
+                    }else{
+
                     }
                 }
                 String json = new Gson().toJson(responsePred);
@@ -179,7 +228,7 @@ public class initBackend {
     public ArrayList getPredicate(String subj,String pred) {
         Dictionary dictionary = null;
         ArrayList<IndexWord> pos = new ArrayList<IndexWord>();
-        ArrayList responsePred = new ArrayList();
+        ArrayList<String> responsePred = new ArrayList<String>();
         IndexWord isubj;
         try {
             dictionary = Dictionary.getDefaultResourceInstance();
@@ -224,7 +273,7 @@ public class initBackend {
 
                       for (int k = 0; k < temp.size(); k++) {
 
-                          responsePred.add(temp.get(k));
+                          responsePred.add((String)temp.get(k));
                       }
 
                   }
@@ -270,7 +319,7 @@ return null;
     }
     private ArrayList demonstrateAsymmetricRelationshipOperation(IndexWord start, IndexWord end) throws JWNLException, CloneNotSupportedException {
         // Try to find a relationship between the first sense of <var>start</var> and the first sense of <var>end</var>
-        ArrayList predicateList = new ArrayList();
+        ArrayList<String> predicateList = new ArrayList<String>();
 
         try {
             RelationshipList list = RelationshipFinder.findRelationships(start.getSenses().get(0), end.getSenses().get(0), PointerType.HYPERNYM);
