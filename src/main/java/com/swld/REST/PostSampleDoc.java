@@ -1,6 +1,7 @@
 package com.swld.REST;
 
 
+import com.swld.Lookup.InitBackend;
 import com.swld.SolrServer.Indexer;
 import com.swld.SolrServer.Searcher;
 import com.swld.SolrServer.Suggester;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 @Path("/sample")
@@ -33,10 +35,17 @@ public class PostSampleDoc {
 
     @GET
     @Path("/get")
-    @Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")    // JSON
+    @Produces(MediaType.APPLICATION_JSON)    // JSON
     public List<Triple> getSampleDoc(@Context UriInfo ui){
         System.out.println("getting sample");
-        return Searcher.searchDoc( ui.getQueryParameters().getFirst("search"));
+        List<Triple> val= Searcher.searchDoc( ui.getQueryParameters().getFirst("search"));
+        if (val !=null){
+            Iterator<Triple> it = val.iterator();
+//            while (it.hasNext()){
+//
+//            }
+        }
+        return val;
     }
 
     @GET
@@ -51,8 +60,9 @@ public class PostSampleDoc {
     @Path("/nlp")
 //    @RequestMapping(value = "/nlp",params = {"message","subject","predicate","onlyMatch"})
     public String startAnalyze(@QueryParam("subject") String subject,@QueryParam("predicate") String predicate,@QueryParam("onlyMatch") String onlyMatch,@QueryParam("message") String message) {
-        initBackend a = new initBackend(subject,
+        InitBackend a = new InitBackend(subject,
                 predicate,message);
+        System.out.println("s:"+ subject + "predicate p"+ predicate);
         try{
             boolean userOption = Boolean.parseBoolean(onlyMatch);
             String result = a.lookup(userOption);
@@ -67,7 +77,7 @@ public class PostSampleDoc {
 
 //    @RequestMapping(value = "/nlp",params = {"message","subject","predicate"})
 //    public String startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String message) {
-//        initBackend a = new initBackend(subject,
+//        InitBackend a = new InitBackend(subject,
 //                predicate,message);
 //        try{
 //            String result = a.lookup();
