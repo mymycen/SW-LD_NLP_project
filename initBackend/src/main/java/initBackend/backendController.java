@@ -11,7 +11,7 @@ public class backendController {
     @RequestMapping(value = "/nlp",params = {"message","subject","predicate","onlyMatch"})
     public String startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String onlyMatch,@RequestParam String message) {
         initBackend a = new initBackend(subject,
-                predicate);
+                predicate,message);
         try{
             boolean userOption = Boolean.parseBoolean(onlyMatch);
             String result = a.lookup(userOption);
@@ -27,7 +27,7 @@ public class backendController {
     @RequestMapping(value = "/nlp",params = {"message","subject","predicate"})
     public String startAnalyze(@RequestParam String subject,@RequestParam String predicate,@RequestParam String message) {
         initBackend a = new initBackend(subject,
-                predicate);
+                predicate,message);
         try{
             String result = a.lookup();
             return result;
