@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
 <head>
 <title>NL Search</title>
 <style type="text/css">
@@ -39,7 +39,7 @@ color: #BE6E28;
 .form {
 background-color: #FFF8F1;
 border: 1em solid #FFF8F1;
-width: 200em
+width: 300em
 }
 
 
@@ -49,16 +49,32 @@ width: 200em
 function sf(){document.f.s.focus();}
 
 //]]></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#searchme").click(function(){
+                $.getJSON("http://localhost:5000/service?query="+encodeURIComponent($("#search").val()),function(data,status){
+                    data.response = data.response.replace(/ /g,"").replace(/</g,"").replace(/>/g,"");
+                    var val=JSON.stringify(data, null, 4)
+                    $("#json").append(val).html();
+                    });
+                });
+        });
+    </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
 <body onload="">
 <div class="header"><span class="title">NL Search</span><div class="navbar"> 
-</div></div><div class="form"><form method="get" action="webwn" enctype="multipart/form-data" name="f">Questions to search for: <input type="text" name="s"  maxlength="500" /><input type="submit" name="sub" value="Search" /><input type="hidden" name="o2" value=""  /><input type="hidden" name="o0" value="1"  /><input type="hidden" name="o8" value="1"  /><input type="hidden" name="o1" value="1"  /><input type="hidden" name="o7" value=""  /><input type="hidden" name="o5" value=""  /><input type="hidden" name="o9" value=""  /><input type="hidden" name="o6" value=""  /><input type="hidden" name="o3" value=""  /><input type="hidden" name="o4" value=""  /><input type="hidden" name="h" value=""  /></form>
-<form method="get" action="webwn" enctype="multipart/form-data" name="change">
-<br>Display Options: <select name="c" >
-<option selected="selected" value="-1">(Select option to change)</option>
-<option value="0">Show all</option>
-</select> <input type="submit" name="sub" value="Apply" /><input type="hidden" name="o2" value=""  /><input type="hidden" name="o0" value="1"  /><input type="hidden" name="o8" value="1"  /><input type="hidden" name="o1" value="1"  /><input type="hidden" name="o7" value=""  /><input type="hidden" name="o5" value=""  /><input type="hidden" name="o9" value=""  /><input type="hidden" name="o6" value=""  /><input type="hidden" name="o3" value=""  /><input type="hidden" name="o4" value=""  /><input type="hidden" name="i" value="-1"  /><input type="hidden" name="h" value=""  /><input type="hidden" name="s" value=""  /></form>
+</div></div>
+<div class="form">
+   <form method="get" action="http://localhost:5000/service" >
+    Questions to search for: <input type="text" name="query" id="search" maxlength="500" />
+        <input id="searchme" type="button" value="submit"/> 
+        <input type="hidden" />
+</form>
+<p> Search Result :</p>
 </div>
+<pre id="json"></pre>
+
 </body>
 </html>
