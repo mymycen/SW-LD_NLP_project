@@ -2,3 +2,4 @@ logs/
 models/
 *.pyc
 .idea
+gs-rest-service.iml
