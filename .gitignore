@@ -1,5 +1,9 @@
 logs/
 models/
+target/
 *.pyc
+
 .idea
+
 gs-rest-service.iml
+
