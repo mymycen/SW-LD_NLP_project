@@ -2,7 +2,7 @@
   "rasa_nlu_data": {
     "common_examples": [
       {
-        "text": "What is the capital of Germany?",
+        "text": "what is the capital of germany?",
         "intent": "question",
         "entities": [
           {
@@ -14,13 +14,13 @@
           {
             "start": 23,
             "end": 30,
-            "value": "Germany",
+            "value": "germany",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the population of Germany?",
+        "text": "what is the population of germany?",
         "intent": "question",
         "entities": [
           {
@@ -32,13 +32,13 @@
           {
             "start": 26,
             "end": 33,
-            "value": "Germany",
+            "value": "germany",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leader of Germany?",
+        "text": "who is the leader of germany?",
         "intent": "question",
         "entities": [
           {
@@ -50,13 +50,13 @@
           {
             "start": 21,
             "end": 28,
-            "value": "Germany",
+            "value": "germany",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leading party of Germany?",
+        "text": "who is the leading party of germany?",
         "intent": "question",
         "entities": [
           {
@@ -68,13 +68,13 @@
           {
             "start": 28,
             "end": 35,
-            "value": "Germany",
+            "value": "germany",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the postal code of Berlin?",
+        "text": "what is the postal code of berlin?",
         "intent": "question",
         "entities": [
           {
@@ -86,13 +86,13 @@
           {
             "start": 27,
             "end": 33,
-            "value": "Berlin",
+            "value": "berlin",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "In what country is Berlin located?",
+        "text": "in what country is berlin located?",
         "intent": "question",
         "entities": [
           {
@@ -104,13 +104,13 @@
           {
             "start": 19,
             "end": 25,
-            "value": "Berlin",
+            "value": "berlin",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the capital of France?",
+        "text": "what is the capital of france?",
         "intent": "question",
         "entities": [
           {
@@ -122,13 +122,13 @@
           {
             "start": 23,
             "end": 29,
-            "value": "France",
+            "value": "france",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the population of France?",
+        "text": "what is the population of france?",
         "intent": "question",
         "entities": [
           {
@@ -140,13 +140,13 @@
           {
             "start": 26,
             "end": 32,
-            "value": "Paris",
+            "value": "paris",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leader of France?",
+        "text": "who is the leader of france?",
         "intent": "question",
         "entities": [
           {
@@ -158,13 +158,13 @@
           {
             "start": 21,
             "end": 27,
-            "value": "France",
+            "value": "france",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leading party of France?",
+        "text": "who is the leading party of france?",
         "intent": "question",
         "entities": [
           {
@@ -176,13 +176,13 @@
           {
             "start": 28,
             "end": 34,
-            "value": "France",
+            "value": "france",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the postal code of Paris?",
+        "text": "what is the postal code of paris?",
         "intent": "question",
         "entities": [
           {
@@ -194,13 +194,13 @@
           {
             "start": 27,
             "end": 32,
-            "value": "Paris",
+            "value": "paris",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "In what country is Paris located?",
+        "text": "in what country is paris located?",
         "intent": "question",
         "entities": [
           {
@@ -212,13 +212,13 @@
           {
             "start": 19,
             "end": 24,
-            "value": "Paris",
+            "value": "paris",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the capital of Ireland?",
+        "text": "what is the capital of ireland?",
         "intent": "question",
         "entities": [
           {
@@ -230,13 +230,13 @@
           {
             "start": 23,
             "end": 30,
-            "value": "Ireland",
+            "value": "ireland",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the population of Ireland?",
+        "text": "what is the population of ireland?",
         "intent": "question",
         "entities": [
           {
@@ -248,13 +248,13 @@
           {
             "start": 26,
             "end": 33,
-            "value": "Ireland",
+            "value": "ireland",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leader of Ireland?",
+        "text": "who is the leader of ireland?",
         "intent": "question",
         "entities": [
           {
@@ -266,13 +266,13 @@
           {
             "start": 21,
             "end": 28,
-            "value": "Ireland",
+            "value": "ireland",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leading party of Ireland?",
+        "text": "who is the leading party of ireland?",
         "intent": "question",
         "entities": [
           {
@@ -284,13 +284,13 @@
           {
             "start": 28,
             "end": 35,
-            "value": "Ireland",
+            "value": "ireland",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the postal code of Dublin?",
+        "text": "what is the postal code of dublin?",
         "intent": "question",
         "entities": [
           {
@@ -302,13 +302,13 @@
           {
             "start": 27,
             "end": 33,
-            "value": "Dublin",
+            "value": "dublin",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "In what country is Dublin located?",
+        "text": "in what country is dublin located?",
         "intent": "question",
         "entities": [
           {
@@ -320,13 +320,13 @@
           {
             "start": 19,
             "end": 25,
-            "value": "Dublin",
+            "value": "dublin",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the capital of Great Britain?",
+        "text": "what is the capital of great britain?",
         "intent": "question",
         "entities": [
           {
@@ -338,13 +338,13 @@
           {
             "start": 23,
             "end": 36,
-            "value": "Great Britain",
+            "value": "great britain",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the population of Great Britain?",
+        "text": "what is the population of great britain?",
         "intent": "question",
         "entities": [
           {
@@ -356,13 +356,13 @@
           {
             "start": 26,
             "end": 39,
-            "value": "Great Britain",
+            "value": "great britain",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leader of Great Britain?",
+        "text": "who is the leader of great britain?",
         "intent": "question",
         "entities": [
           {
@@ -374,13 +374,13 @@
           {
             "start": 21,
             "end": 34,
-            "value": "Great Britain",
+            "value": "great britain",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "Who is the leading party of Great Britain?",
+        "text": "who is the leading party of great britain?",
         "intent": "question",
         "entities": [
           {
@@ -392,13 +392,13 @@
           {
             "start": 28,
             "end": 41,
-            "value": "Great Britain",
+            "value": "great britain",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "What is the postal code of London?",
+        "text": "what is the postal code of london?",
         "intent": "question",
         "entities": [
           {
@@ -410,13 +410,13 @@
           {
             "start": 27,
             "end": 33,
-            "value": "London",
+            "value": "london",
             "entity": "subject"
           }
         ]
       },
       {
-        "text": "In what country is London located?",
+        "text": "in what country is london located?",
         "intent": "question",
         "entities": [
           {
@@ -428,7 +428,7 @@
           {
             "start": 19,
             "end": 25,
-            "value": "London",
+            "value": "london",
             "entity": "subject"
           }
         ]
