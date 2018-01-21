@@ -3,54 +3,40 @@ package initBackend;
 import com.google.gson.Gson;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
-import org.apache.jena.base.Sys;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.RuleMatch;
-import org.springframework.web.client.RestTemplate;
 import net.sf.extjwnl.JWNLException;
 import net.sf.extjwnl.data.IndexWord;
 import net.sf.extjwnl.data.POS;
 import net.sf.extjwnl.data.PointerType;
-import net.sf.extjwnl.data.PointerUtils;
-import net.sf.extjwnl.data.list.PointerTargetNodeList;
-import net.sf.extjwnl.data.list.PointerTargetTree;
-import net.sf.extjwnl.data.relationship.AsymmetricRelationship;
 import net.sf.extjwnl.data.relationship.Relationship;
 import net.sf.extjwnl.data.relationship.RelationshipFinder;
 import net.sf.extjwnl.data.relationship.RelationshipList;
 import net.sf.extjwnl.dictionary.Dictionary;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
-
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.sparql.core.DatasetImpl;
+import java.util.ArrayList;
 
 
 public class initBackend {
-    private  String subject;
-    private  String predicate;
-    private  String sentence;
+    private String subject;
+    private String predicate;
+    private String sentence;
 
-    public initBackend(String subject, String predicate,String sentence) {
+    public initBackend(String subject, String predicate, String sentence) {
         this.subject = subject;
         this.sentence = sentence;
         this.predicate = predicate;
 
     }
-    public String lookup(boolean onlyMatch){
-        String newSubj=null;
-        final String uri = "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryString="+subject;
+
+    public String lookup(boolean onlyMatch) {
+        String newSubj = null;
+        final String uri = "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryString=" + subject;
         String returnObj = null;
-    RestTemplate restTemplate = new RestTemplate();
-    String result = restTemplate.getForObject(uri, String.class);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
         try {
 
             JSONObject jsonObj = new JSONObject(result);
@@ -60,19 +46,19 @@ public class initBackend {
 
             returnObj = jsonObj3.get("uri").toString();
             //System.out.println(returnObj+"  ____________");
-            String resultQuery = query(returnObj,predicate);
-            if(resultQuery!=null && onlyMatch==true){
-                System.out.println(resultQuery+"  _______result_____");
-                return resultQuery;}
-                else {
+            String resultQuery = query(returnObj, predicate);
+            if (resultQuery != null && onlyMatch == true) {
+                System.out.println(resultQuery + "  _______result_____");
+                return resultQuery;
+            } else {
                 String[] splited = returnObj.split("/");
-                for(int l=0;l<splited.length;l++){
-                    if(splited[l].equals("resource")){
-                        try{
-                            newSubj=splited[l+1];
-                        }catch(Exception e){
+                for (int l = 0; l < splited.length; l++) {
+                    if (splited[l].equals("resource")) {
+                        try {
+                            newSubj = splited[l + 1];
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            newSubj=subject;
+                            newSubj = subject;
                         }
                     }
                 }
@@ -109,17 +95,17 @@ public class initBackend {
 //                }
 
 
-                ArrayList responsePred = getPredicate(newSubj,predicate);
+                ArrayList responsePred = getPredicate(newSubj, predicate);
 
-                for(int i =responsePred.size()-1;i>=0;i--){
-                    if (responsePred.get(i).equals(subject)||responsePred.get(i).equals("abstraction")||responsePred.get(i).equals("abstract entity")
-                            || responsePred.get(i).equals("attribute")||responsePred.get(i).equals("physical property")||responsePred.get(i).equals("property")
-                            ||responsePred.get(i).equals("entity")||responsePred.get(i).equals("physical entity")){
+                for (int i = responsePred.size() - 1; i >= 0; i--) {
+                    if (responsePred.get(i).equals(subject) || responsePred.get(i).equals("abstraction") || responsePred.get(i).equals("abstract entity")
+                            || responsePred.get(i).equals("attribute") || responsePred.get(i).equals("physical property") || responsePred.get(i).equals("property")
+                            || responsePred.get(i).equals("entity") || responsePred.get(i).equals("physical entity")) {
                         responsePred.remove(i);
-                    }else {
-                        System.out.println("TESTTT!!!!!!!!"+responsePred.get(0));
-                        String tempForIndexing = sentence.replaceAll(subject,newSubj);
-                        tempForIndexing = tempForIndexing.replaceAll(predicate,responsePred.get(i).toString());
+                    } else {
+                        System.out.println("TESTTT!!!!!!!!" + responsePred.get(0));
+                        String tempForIndexing = sentence.replaceAll(subject, newSubj);
+                        tempForIndexing = tempForIndexing.replaceAll(predicate, responsePred.get(i).toString());
                         System.out.println("Begining new Subj,pred =======");
                         System.out.println(tempForIndexing);
                         System.out.println("Ending new Subj,pred =======");
@@ -137,11 +123,12 @@ public class initBackend {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    return returnObj;
+        return returnObj;
     }
-    public String lookup(){
-        String newSubj=null;
-        final String uri = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryString="+subject;
+
+    public String lookup() {
+        String newSubj = null;
+        final String uri = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryString=" + subject;
         String returnObj = null;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
@@ -155,35 +142,33 @@ public class initBackend {
             returnObj = jsonObj3.get("uri").toString();
 
 
-                String[] splited = returnObj.split("/");
-                for(int l=0;l<splited.length;l++){
-                    if(splited[l].equals("resource")){
-                        try{
-                            newSubj=splited[l+1];
-                        }catch(Exception e){
-                            e.printStackTrace();
-                            newSubj=subject;
-                        }
+            String[] splited = returnObj.split("/");
+            for (int l = 0; l < splited.length; l++) {
+                if (splited[l].equals("resource")) {
+                    try {
+                        newSubj = splited[l + 1];
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        newSubj = subject;
                     }
                 }
-                // System.out.println(returnObj+" helloooooooo");
-                // System.out.println(newSubj+" helloooooooo");
-                ArrayList responsePred = getPredicate(newSubj,predicate);
-                for(int i =0;i<responsePred.size();i++){
-                    if (responsePred.get(i).equals(subject)){
-                        responsePred.remove(i);
-                    }else{
+            }
+            // System.out.println(returnObj+" helloooooooo");
+            // System.out.println(newSubj+" helloooooooo");
+            ArrayList responsePred = getPredicate(newSubj, predicate);
+            for (int i = 0; i < responsePred.size(); i++) {
+                if (responsePred.get(i).equals(subject)) {
+                    responsePred.remove(i);
+                } else {
 
-                    }
                 }
-                String json = new Gson().toJson(responsePred);
-                //***********Call index backend********
-                //use subject from global
-                //predicate will be list from possible dictionary
+            }
+            String json = new Gson().toJson(responsePred);
+            //***********Call index backend********
+            //use subject from global
+            //predicate will be list from possible dictionary
 
-                return json;
-
-
+            return json;
 
 
         } catch (JSONException e) {
@@ -191,17 +176,18 @@ public class initBackend {
         }
         return "An error occur";
     }
-    public String query(String lookupRes,String pred){
-        String query = "select ?property ?hasValue where {<"+lookupRes+"> ?property ?hasValue} ";
-        String response=null;
+
+    public String query(String lookupRes, String pred) {
+        String query = "select ?property ?hasValue where {<" + lookupRes + "> ?property ?hasValue} ";
+        String response = null;
         try {
             Query queryR = QueryFactory.create(query);
             ResultSet results = executeQuery(queryR);
             System.out.println(results.nextSolution());
-            for ( ; results.hasNext() ; ) {
-                QuerySolution soln = results.nextSolution() ;
+            for (; results.hasNext(); ) {
+                QuerySolution soln = results.nextSolution();
                 System.out.println(soln);
-                if(soln.toString().contains("http://dbpedia.org/property/"+pred+">")||soln.toString().contains("http://dbpedia.org/ontology/"+pred+">")){
+                if (soln.toString().contains("http://dbpedia.org/property/" + pred + ">") || soln.toString().contains("http://dbpedia.org/ontology/" + pred + ">")) {
                     System.out.println(" ******************** ");
 
                     String temp = soln.toString().substring(soln.toString().lastIndexOf("= ") + 1);
@@ -209,8 +195,8 @@ public class initBackend {
                     response = res[0];
                     System.out.println(response);
                     return response;
-                }else{
-                    response=null;
+                } else {
+                    response = null;
                 }
             }
         } catch (Exception e) {
@@ -220,12 +206,11 @@ public class initBackend {
     }
 
 
-
     public String getSubject() {
         return subject;
     }
 
-    public ArrayList getPredicate(String subj,String pred) {
+    public ArrayList getPredicate(String subj, String pred) {
         Dictionary dictionary = null;
         ArrayList<IndexWord> pos = new ArrayList<IndexWord>();
         ArrayList<String> responsePred = new ArrayList<String>();
@@ -237,46 +222,46 @@ public class initBackend {
             e.printStackTrace();
         }
         try {
-            IndexWord noun=dictionary.getIndexWord(POS.NOUN, pred);
+            IndexWord noun = dictionary.getIndexWord(POS.NOUN, pred);
             pos.add(noun);
         } catch (JWNLException e) {
             e.printStackTrace();
         }
         try {
-            IndexWord verb=dictionary.getIndexWord(POS.VERB, pred);
+            IndexWord verb = dictionary.getIndexWord(POS.VERB, pred);
             pos.add(verb);
         } catch (JWNLException e) {
             e.printStackTrace();
         }
 
         try {
-            IndexWord abverb=dictionary.getIndexWord(POS.ADVERB, pred);
+            IndexWord abverb = dictionary.getIndexWord(POS.ADVERB, pred);
             pos.add(abverb);
         } catch (JWNLException e) {
             e.printStackTrace();
         }
         try {
-            IndexWord adj=dictionary.getIndexWord(POS.ADJECTIVE, pred);
+            IndexWord adj = dictionary.getIndexWord(POS.ADJECTIVE, pred);
             pos.add(adj);
         } catch (JWNLException e) {
             e.printStackTrace();
         }
         try {
-           // System.out.println(pos.size()+" nnnnnnnnnnnnn");
-            for(int i =0;i<pos.size();i++) {
-                System.out.println("mai wa"+i);
+            // System.out.println(pos.size()+" nnnnnnnnnnnnn");
+            for (int i = 0; i < pos.size(); i++) {
+                System.out.println("mai wa" + i);
                 try {
-                    isubj=dictionary.getIndexWord(POS.NOUN, subj);
+                    isubj = dictionary.getIndexWord(POS.NOUN, subj);
 
-                  ArrayList temp =  demonstrateAsymmetricRelationshipOperation(isubj,pos.get(i));
-                  if(temp!=null) {
+                    ArrayList temp = demonstrateAsymmetricRelationshipOperation(isubj, pos.get(i));
+                    if (temp != null) {
 
-                      for (int k = 0; k < temp.size(); k++) {
+                        for (int k = 0; k < temp.size(); k++) {
 
-                          responsePred.add((String)temp.get(k));
-                      }
+                            responsePred.add((String) temp.get(k));
+                        }
 
-                  }
+                    }
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
@@ -286,10 +271,10 @@ public class initBackend {
 
             e.printStackTrace();
         }
-        for(int a =0;a<responsePred.size();a++){
-            System.out.println(responsePred.get(a)+" predicate index : "+ a);
+        for (int a = 0; a < responsePred.size(); a++) {
+            System.out.println(responsePred.get(a) + " predicate index : " + a);
         }
-        if(responsePred.size()<1){
+        if (responsePred.size() < 1) {
             responsePred.add(predicate);
         }
 
@@ -299,24 +284,25 @@ public class initBackend {
 
     public ResultSet executeQuery(Query queryString) throws Exception {
 
-        try  {
+        try {
             QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", queryString);
             // Set the DBpedia specific timeout.
-            ((QueryEngineHTTP)qexec).addParam("timeout", "10000");
+            ((QueryEngineHTTP) qexec).addParam("timeout", "10000");
 
             // Execute.
             //ResultSet rs = qexec.execSelect();
-           // System.out.println("testtttt");
-           // ResultSetFormatter.out(System.out, rs, queryString);
+            // System.out.println("testtttt");
+            // ResultSetFormatter.out(System.out, rs, queryString);
             return qexec.execSelect();
         } catch (Exception e) {
             e.printStackTrace();
         }
 //        QueryExecution exec =  QueryExecutionFactory.create(QueryFactory.create(queryString), new
 //                DatasetImpl(ModelFactory.createDefaultModel()));
-return null;
+        return null;
 
     }
+
     private ArrayList demonstrateAsymmetricRelationshipOperation(IndexWord start, IndexWord end) throws JWNLException, CloneNotSupportedException {
         // Try to find a relationship between the first sense of <var>start</var> and the first sense of <var>end</var>
         ArrayList<String> predicateList = new ArrayList<String>();
@@ -347,7 +333,7 @@ return null;
                     }
                 }
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
             return null;
         }
