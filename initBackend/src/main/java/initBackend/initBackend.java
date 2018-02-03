@@ -35,6 +35,8 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.sparql.core.DatasetImpl;
 
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
+
 
 public class initBackend {
     private  String subject;
@@ -91,9 +93,11 @@ public class initBackend {
             String resultQuery = query(returnObj,predicate);
             if(resultQuery!=null && onlyMatch==true){
                 System.out.println(resultQuery+"  _______result_____");
-                ArrayList<String> responseResult = new ArrayList<String>();
-                responseResult.add("\"o\":"+resultQuery);
-                return new Gson().toJson(responseResult);}
+                ArrayList<HashMap> list = new ArrayList<>();
+                HashMap<String, String> responseResult = new HashMap<>();
+                responseResult.put("s", resultQuery);
+                list.add(responseResult);
+                return new Gson().toJson(list);}
             else {
                 String[] splited = returnObj.split("/");
                 for(int l=0;l<splited.length;l++){
