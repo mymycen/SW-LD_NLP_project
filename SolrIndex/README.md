@@ -1,7 +1,7 @@
 # Search index for semantic data
 
 1. cd to repo folder  
-``cd SolrSearch``
+``cd SolrIndex``
 2. Run all the below commands  
  ```
  wget http://archive.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
