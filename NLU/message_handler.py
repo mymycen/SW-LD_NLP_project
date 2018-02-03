@@ -21,7 +21,6 @@ class MessageHandler:
         # Parse user input
         nlu_json_response = self.interpreter.parse(message)
 
-        print(nlu_json_response)
         entities = nlu_json_response['entities']
         subject = None
         predicate = None
@@ -46,6 +45,6 @@ class MessageHandler:
         data['message'] = message
         data['subject'] = subject
         data['predicate'] = predicate
-        data['response'] = resp.text
+        data['response'] = json.loads(resp.text)
 
         return json.dumps(data)
