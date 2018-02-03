@@ -1,4 +1,4 @@
-package com.swld.Lookup;
+package initBackend;
 
 import com.google.gson.Gson;
 import com.hp.hpl.jena.query.*;
@@ -18,12 +18,13 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
-public class InitBackend {
+
+public class initBackend {
     private String subject;
     private String predicate;
     private String sentence;
 
-    public InitBackend(String subject, String predicate, String sentence) {
+    public initBackend(String subject, String predicate, String sentence) {
         this.subject = subject;
         this.sentence = sentence;
         this.predicate = predicate;

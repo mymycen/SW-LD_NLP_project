@@ -7,6 +7,8 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 
 import java.io.*;
+import java.util.List;
+
 
 
 public class Indexer {
