@@ -54,7 +54,7 @@ public class initBackend {
 
             String uriSolr = "http://localhost:5050/search/get?search=" + sentence;
             String resultSolr = "{ \"results\":" + restTemplate.getForObject(uriSolr, String.class) + "}";
-            
+
             //System.out.println(resultSolr);
             JsonParser jsonParser = new JsonParser();
             JsonObject o = jsonParser.parse(resultSolr).getAsJsonObject();
@@ -92,7 +92,7 @@ public class initBackend {
             if(resultQuery!=null && onlyMatch==true){
                 System.out.println(resultQuery+"  _______result_____");
                 ArrayList<String> responseResult = new ArrayList<String>();
-                responseResult.add(resultQuery);
+                responseResult.add("\"o\":"+resultQuery);
                 return new Gson().toJson(responseResult);}
             else {
                 String[] splited = returnObj.split("/");
