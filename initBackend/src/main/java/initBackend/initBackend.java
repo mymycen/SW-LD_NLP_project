@@ -54,7 +54,7 @@ public class initBackend {
 
             String uriSolr = "http://localhost:5050/search/get?search=" + sentence;
             String resultSolr = "{ \"results\":" + restTemplate.getForObject(uriSolr, String.class) + "}";
-
+            
             //System.out.println(resultSolr);
             JsonParser jsonParser = new JsonParser();
             JsonObject o = jsonParser.parse(resultSolr).getAsJsonObject();
@@ -62,7 +62,7 @@ public class initBackend {
                 JsonObject oNext  = jsonParser.parse(o.get("results").getAsJsonArray().get(indexSolr).toString()).getAsJsonObject();
                 // System.out.println(oNext.get("o"));
                 if(oNext.size()>0&&(responseResult.size()<21)){
-                    responseResult.add(oNext.get("o"));
+                    responseResult.add(oNext);
                 }
 
             }
@@ -77,8 +77,8 @@ public class initBackend {
         String newSubj=null;
         final String uri = "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryString="+subject;
         String returnObj = null;
-    RestTemplate restTemplate = new RestTemplate();
-    String result = restTemplate.getForObject(uri, String.class);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
         try {
 
             JSONObject jsonObj = new JSONObject(result);
@@ -94,7 +94,7 @@ public class initBackend {
                 ArrayList<String> responseResult = new ArrayList<String>();
                 responseResult.add(resultQuery);
                 return new Gson().toJson(responseResult);}
-                else {
+            else {
                 String[] splited = returnObj.split("/");
                 for(int l=0;l<splited.length;l++){
                     if(splited[l].equals("resource")){
@@ -156,17 +156,17 @@ public class initBackend {
                             String uriSolr = "http://localhost:5050/search/get?search=" + tempForIndexing;
                             String resultSolr = "{ \"results\":" + restTemplate.getForObject(uriSolr, String.class) + "}";
 
-                        //System.out.println(resultSolr);
-                        JsonParser jsonParser = new JsonParser();
-                        JsonObject o = jsonParser.parse(resultSolr).getAsJsonObject();
-                        for (int indexSolr=0;indexSolr<o.get("results").getAsJsonArray().size();indexSolr++){
-                            JsonObject oNext  = jsonParser.parse(o.get("results").getAsJsonArray().get(indexSolr).toString()).getAsJsonObject();
-                           // System.out.println(oNext.get("o"));
-                            if(oNext.size()>0&&(responseResult.size()<21)){
-                            responseResult.add(oNext.get("o"));
-                            }
+                            //System.out.println(resultSolr);
+                            JsonParser jsonParser = new JsonParser();
+                            JsonObject o = jsonParser.parse(resultSolr).getAsJsonObject();
+                            for (int indexSolr=0;indexSolr<o.get("results").getAsJsonArray().size();indexSolr++){
+                                JsonObject oNext  = jsonParser.parse(o.get("results").getAsJsonArray().get(indexSolr).toString()).getAsJsonObject();
+                                 //System.out.println(oNext+" ((((((((((((");
+                                if(oNext.size()>0&&(responseResult.size()<21)){
+                                    responseResult.add(oNext);
+                                }
 
-                        }
+                            }
                         }catch (Exception e)
                         {
                             e.printStackTrace();
@@ -191,9 +191,9 @@ public class initBackend {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    return returnObj;
+        return returnObj;
     }
-//    public String lookup(){
+    //    public String lookup(){
 //        String newSubj=null;
 //        final String uri = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryString="+subject;
 //        String returnObj = null;
@@ -316,21 +316,21 @@ public class initBackend {
             e.printStackTrace();
         }
         try {
-           // System.out.println(pos.size()+" nnnnnnnnnnnnn");
+            // System.out.println(pos.size()+" nnnnnnnnnnnnn");
             for(int i =0;i<pos.size();i++) {
                 System.out.println("mai wa"+i);
                 try {
                     isubj=dictionary.getIndexWord(POS.NOUN, subj);
 
-                  ArrayList temp =  demonstrateAsymmetricRelationshipOperation(isubj,pos.get(i));
-                  if(temp!=null) {
+                    ArrayList temp =  demonstrateAsymmetricRelationshipOperation(isubj,pos.get(i));
+                    if(temp!=null) {
 
-                      for (int k = 0; k < temp.size(); k++) {
+                        for (int k = 0; k < temp.size(); k++) {
 
-                          responsePred.add((String)temp.get(k));
-                      }
+                            responsePred.add((String)temp.get(k));
+                        }
 
-                  }
+                    }
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
@@ -360,15 +360,15 @@ public class initBackend {
 
             // Execute.
             //ResultSet rs = qexec.execSelect();
-           // System.out.println("testtttt");
-           // ResultSetFormatter.out(System.out, rs, queryString);
+            // System.out.println("testtttt");
+            // ResultSetFormatter.out(System.out, rs, queryString);
             return qexec.execSelect();
         } catch (Exception e) {
             e.printStackTrace();
         }
 //        QueryExecution exec =  QueryExecutionFactory.create(QueryFactory.create(queryString), new
 //                DatasetImpl(ModelFactory.createDefaultModel()));
-return null;
+        return null;
 
     }
     private ArrayList demonstrateAsymmetricRelationshipOperation(IndexWord start, IndexWord end) throws JWNLException, CloneNotSupportedException {
