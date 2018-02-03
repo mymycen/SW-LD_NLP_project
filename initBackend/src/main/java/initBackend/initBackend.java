@@ -91,7 +91,9 @@ public class initBackend {
             String resultQuery = query(returnObj,predicate);
             if(resultQuery!=null && onlyMatch==true){
                 System.out.println(resultQuery+"  _______result_____");
-                return resultQuery;}
+                ArrayList<String> responseResult = new ArrayList<String>();
+                responseResult.add(resultQuery);
+                return new Gson().toJson(responseResult);}
                 else {
                 String[] splited = returnObj.split("/");
                 for(int l=0;l<splited.length;l++){
