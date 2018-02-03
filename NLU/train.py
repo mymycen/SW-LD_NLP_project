@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 nlu_training_data = 'data/nlu_training_data.json'
 
+
 def train_model():
     from rasa_nlu.config import RasaNLUConfig
     from rasa_nlu.converters import load_data

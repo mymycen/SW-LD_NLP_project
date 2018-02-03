@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
-from rasa_nlu.config import RasaNLUConfig
-from rasa_nlu.model import Interpreter
 
 import json
+
 import requests
+from rasa_nlu.config import RasaNLUConfig
+from rasa_nlu.model import Interpreter
 
 
 class MessageHandler:
@@ -20,23 +21,28 @@ class MessageHandler:
         # Parse user input
         nlu_json_response = self.interpreter.parse(message)
 
-        #TODO Check message intent confidence and entities
-
+        confidence = nlu_json_response['intent']['confidence']
         entities = nlu_json_response['entities']
         subject = None
         predicate = None
 
-        for entity in entities:
-            if entity['entity'] == 'subject':
-                subject = entity['value']
-            elif entity['entity'] == 'predicate':
-                predicate = entity['value']
+        if confidence < 0.7 or len(entities) < 2:
+            resp = requests.get('http://localhost:8080/nlp?message=' + message)
+            if resp.status_code != 200:
+                raise resp.status_code
+        else:
+            for entity in entities:
+                if entity['entity'] == 'subject':
+                    subject = entity['value']
+                elif entity['entity'] == 'predicate':
+                    predicate = entity['value']
 
-        resp = requests.get('http://localhost:8080/nlp?message=' + message + '&subject=' + subject + '&predicate=' + predicate + '&onlyMatch=True')
-        if resp.status_code != 200:
-            raise resp.status_code
+            resp = requests.get(
+                'http://localhost:8080/nlp?message=' + message + '&subject=' + subject + '&predicate=' + predicate + '&onlyMatch=True')
+            if resp.status_code != 200:
+                raise resp.status_code
 
-        data = {}
+        data = dict()
         data['message'] = message
         data['subject'] = subject
         data['predicate'] = predicate

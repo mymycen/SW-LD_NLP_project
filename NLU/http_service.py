@@ -1,6 +1,6 @@
 from flask import Flask, request
-from message_handler import MessageHandler
 
+from message_handler import MessageHandler
 
 app = Flask(__name__)
 handler = None
