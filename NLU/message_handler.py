@@ -26,6 +26,8 @@ class MessageHandler:
         predicate = None
 
         if len(entities) < 2:
+            print("Request: " + 'http://localhost:8080/nlp?message=' + message)
+
             resp = requests.get('http://localhost:8080/nlp?message=' + message)
             if resp.status_code != 200:
                 raise resp.status_code
@@ -35,6 +37,8 @@ class MessageHandler:
                     subject = entity['value']
                 elif entity['entity'] == 'predicate':
                     predicate = entity['value']
+
+            print("Request: " + 'http://localhost:8080/nlp?message=' + message + '&subject=' + subject + '&predicate=' + predicate + '&onlyMatch=True')
 
             resp = requests.get(
                 'http://localhost:8080/nlp?message=' + message + '&subject=' + subject + '&predicate=' + predicate + '&onlyMatch=True')
