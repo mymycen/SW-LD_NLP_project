@@ -90,7 +90,36 @@ public class initBackend {
 
             returnObj = jsonObj3.get("uri").toString();
             //System.out.println(returnObj+"  ____________");
-            String resultQuery = query(returnObj,predicate);
+            String[] splited = returnObj.split("/");
+            for(int l=0;l<splited.length;l++){
+                if(splited[l].equals("resource")){
+                    try{
+                        newSubj=splited[l+1];
+                    }catch(Exception e){
+                        e.printStackTrace();
+                        newSubj=subject;
+                    }
+                }
+            }
+
+
+            ArrayList responsePred = getPredicate(newSubj,predicate);
+            String resultQuery = null;
+            for(int i =responsePred.size()-1;i>=responsePred.size()-4;i--) {
+                if (responsePred.get(i).equals(subject)||responsePred.get(i).equals("abstraction")||responsePred.get(i).equals("abstract entity")
+                        || responsePred.get(i).equals("attribute")||responsePred.get(i).equals("physical property")||responsePred.get(i).equals("property")
+                        ||responsePred.get(i).equals("entity")||responsePred.get(i).equals("physical entity")){
+                    responsePred.remove(i);
+                }
+                if(resultQuery==""||resultQuery==null){
+                    try {
+                        resultQuery = query(returnObj, responsePred.get(i).toString());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }else break;
+            }
             if(resultQuery!=null && onlyMatch==true){
                 System.out.println(resultQuery+"  _______result_____");
                 ArrayList<HashMap> list = new ArrayList<>();
@@ -99,19 +128,54 @@ public class initBackend {
                 list.add(responseResult);
                 return new Gson().toJson(list);}
             else {
-                String[] splited = returnObj.split("/");
-                for(int l=0;l<splited.length;l++){
-                    if(splited[l].equals("resource")){
-                        try{
-                            newSubj=splited[l+1];
-                        }catch(Exception e){
+
+                ArrayList responseResult  = new ArrayList();
+                for(int i =responsePred.size()-1;i>=0;i--){
+
+
+                        try {
+                            String tempForIndexing = sentence.replaceAll(subject, newSubj);
+                            tempForIndexing = tempForIndexing.replaceAll(predicate, responsePred.get(i).toString());
+
+                            String uriSolr = "http://localhost:5050/search/get?search=" + tempForIndexing;
+                            String resultSolr = "{ \"results\":" + restTemplate.getForObject(uriSolr, String.class) + "}";
+                            JsonParser jsonParser = new JsonParser();
+                            JsonObject o = jsonParser.parse(resultSolr).getAsJsonObject();
+                            for (int indexSolr=0;indexSolr<o.get("results").getAsJsonArray().size();indexSolr++){
+                                JsonObject oNext  = jsonParser.parse(o.get("results").getAsJsonArray().get(indexSolr).toString()).getAsJsonObject();
+                                //System.out.println(oNext+" ((((((((((((");
+                                if(oNext.size()>0&&(responseResult.size()<21)){
+                                    responseResult.add(oNext);
+                                }
+
+                            }
+                        }catch (Exception e)
+                        {
                             e.printStackTrace();
-                            newSubj=subject;
                         }
-                    }
+//                        JsonObject jo = (JsonObject)jsonParser.parse(resultSolr);
+//                        for(int aa=0;aa<jo.getAsJsonArray().size();aa++){
+//                            System.out.println(jo.getAsJsonArray().get(aa));
+//                        }
+
+
                 }
-                // System.out.println(returnObj+" helloooooooo");
-                // System.out.println(newSubj+" helloooooooo");
+
+                String json = new Gson().toJson(responseResult);
+                //***********Call index backend********
+                //use subject from global
+                //predicate will be list from possible dictionary
+
+                return json;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObj;
+    }
+    // System.out.println(returnObj+" helloooooooo");
+    // System.out.println(newSubj+" helloooooooo");
 //                JLanguageTool langTool = null;
 //                try {
 //                    langTool = new JLanguageTool(Language.AMERICAN_ENGLISH);
@@ -143,112 +207,6 @@ public class initBackend {
 //                }
 
 
-                ArrayList responsePred = getPredicate(newSubj,predicate);
-                ArrayList responseResult  = new ArrayList();
-                for(int i =responsePred.size()-1;i>=0;i--){
-                    if (responsePred.get(i).equals(subject)||responsePred.get(i).equals("abstraction")||responsePred.get(i).equals("abstract entity")
-                            || responsePred.get(i).equals("attribute")||responsePred.get(i).equals("physical property")||responsePred.get(i).equals("property")
-                            ||responsePred.get(i).equals("entity")||responsePred.get(i).equals("physical entity")){
-                        responsePred.remove(i);
-                    }else {
-                        try {
-                            System.out.println("TESTTT!!!!!!!!" + responsePred.get(0));
-                            String tempForIndexing = sentence.replaceAll(subject, newSubj);
-                            tempForIndexing = tempForIndexing.replaceAll(predicate, responsePred.get(i).toString());
-                            System.out.println("Begining new Subj,pred =======");
-
-                            String uriSolr = "http://localhost:5050/search/get?search=" + tempForIndexing;
-                            String resultSolr = "{ \"results\":" + restTemplate.getForObject(uriSolr, String.class) + "}";
-
-                            //System.out.println(resultSolr);
-                            JsonParser jsonParser = new JsonParser();
-                            JsonObject o = jsonParser.parse(resultSolr).getAsJsonObject();
-                            for (int indexSolr=0;indexSolr<o.get("results").getAsJsonArray().size();indexSolr++){
-                                JsonObject oNext  = jsonParser.parse(o.get("results").getAsJsonArray().get(indexSolr).toString()).getAsJsonObject();
-                                 //System.out.println(oNext+" ((((((((((((");
-                                if(oNext.size()>0&&(responseResult.size()<21)){
-                                    responseResult.add(oNext);
-                                }
-
-                            }
-                        }catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-//                        JsonObject jo = (JsonObject)jsonParser.parse(resultSolr);
-//                        for(int aa=0;aa<jo.getAsJsonArray().size();aa++){
-//                            System.out.println(jo.getAsJsonArray().get(aa));
-//                        }
-
-                        System.out.println("Ending new Subj,pred =======");
-                    }
-                }
-
-                String json = new Gson().toJson(responseResult);
-                //***********Call index backend********
-                //use subject from global
-                //predicate will be list from possible dictionary
-
-                return json;
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObj;
-    }
-    //    public String lookup(){
-//        String newSubj=null;
-//        final String uri = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryString="+subject;
-//        String returnObj = null;
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-//        try {
-//
-//            JSONObject jsonObj = new JSONObject(result);
-//            JSONArray jsonObj2 = jsonObj.getJSONArray("results");
-//
-//            JSONObject jsonObj3 = new JSONObject(jsonObj2.getString(0));
-//
-//            returnObj = jsonObj3.get("uri").toString();
-//
-//
-//                String[] splited = returnObj.split("/");
-//                for(int l=0;l<splited.length;l++){
-//                    if(splited[l].equals("resource")){
-//                        try{
-//                            newSubj=splited[l+1];
-//                        }catch(Exception e){
-//                            e.printStackTrace();
-//                            newSubj=subject;
-//                        }
-//                    }
-//                }
-//                // System.out.println(returnObj+" helloooooooo");
-//                // System.out.println(newSubj+" helloooooooo");
-//                ArrayList responsePred = getPredicate(newSubj,predicate);
-//                for(int i =0;i<responsePred.size();i++){
-//                    if (responsePred.get(i).equals(subject)){
-//                        responsePred.remove(i);
-//                    }else{
-//
-//                    }
-//                }
-//                String json = new Gson().toJson(responsePred);
-//                //***********Call index backend********
-//                //use subject from global
-//                //predicate will be list from possible dictionary
-//
-//                return json;
-//
-//
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return "An error occur";
-//    }
     public String query(String lookupRes,String pred){
         String query = "select ?property ?hasValue where {<"+lookupRes+"> ?property ?hasValue} ";
         String response=null;
@@ -260,7 +218,6 @@ public class initBackend {
                 QuerySolution soln = results.nextSolution() ;
                 System.out.println(soln);
                 if(soln.toString().contains("http://dbpedia.org/property/"+pred+">")||soln.toString().contains("http://dbpedia.org/ontology/"+pred+">")){
-                    System.out.println(" ******************** ");
 
                     String temp = soln.toString().substring(soln.toString().lastIndexOf("= ") + 1);
                     String[] res = temp.split("\\)");
@@ -322,7 +279,6 @@ public class initBackend {
         try {
             // System.out.println(pos.size()+" nnnnnnnnnnnnn");
             for(int i =0;i<pos.size();i++) {
-                System.out.println("mai wa"+i);
                 try {
                     isubj=dictionary.getIndexWord(POS.NOUN, subj);
 
