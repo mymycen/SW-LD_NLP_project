@@ -47,20 +47,26 @@ function sf(){document.f.s.focus();}
 <script>
         $(document).ready(function(){
             $("#searchme").click(function(){
-                $.getJSON("http://localhost:5000/service?query="+encodeURIComponent($('#questions option:selected').text())+encodeURIComponent($('#country option:selected').text()),function(data,status){
-                    data.response = data.response.replace(/ /g,"").replace(/</g,"").replace(/>/g,"");
-                    var val=JSON.stringify(data, null, 4)
-                    $("#json").append(val).html();
-                    });
-                });
+                $.getJSON("http://localhost:5000/service?query="+encodeURIComponent($('#questions option:selected').text())+encodeURIComponent($('#country option:selected').text()),function(data){printResponse(data)});
+            });
             $("#searchbox").click(function(){
-            $.getJSON("http://localhost:5000/service?query="+encodeURIComponent($('#search').val()),function(data,status){
-                data.response = data.response.replace(/ /g,"").replace(/</g,"").replace(/>/g,"");
-                var val=JSON.stringify(data, null, 4)
-                $("#json").append(val).html();
-                });
+                $.getJSON("http://localhost:5000/service?query=" + encodeURIComponent($('#search').val()), function(data){printResponse(data)});
             });    
         });
+
+        function printResponse(data){
+                data.response.forEach(function (value) {
+                    console.log(value);
+                    document.getElementById("subject").innerText = value.s;
+                    if ("p" in value){
+                        document.getElementById("object").innerText = value.p;
+                    }
+
+                    if ("o" in value){
+                        document.getElementById("object").innerText = value.o;
+                    }
+                });
+        }
     </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
@@ -86,7 +92,7 @@ function sf(){document.f.s.focus();}
                 <option>Who is the leading party of </option>  
               </select> 
               <select name="country" id="country">
-                    <option value="0" label="Select a country..." selected="selected">Select a country…</option>
+                    <option value="0" label="Select a country..." selected="selected">Select a country...</option>
                     <optgroup id="country-optgroup-Europe" label="Europe">
                             <option value="AL" label="Albania">Albania</option>
                             <option value="AD" label="Andorra">Andorra</option>
@@ -354,8 +360,10 @@ function sf(){document.f.s.focus();}
 </form>
 <p> Search Result :</p>
 </div>
-<div class="breakword">
-   <pre id="json"></pre>
+<div>
+   <div id="subject"></div>
+   <div id="predicate"></div>
+   <div id="object"></div>
 </div>
 </body>
 </html>
