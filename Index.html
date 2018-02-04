@@ -55,17 +55,24 @@ function sf(){document.f.s.focus();}
         });
 
         function printResponse(data){
-                data.response.forEach(function (value) {
-                    console.log(value);
-                    document.getElementById("subject").innerText = value.s;
-                    if ("p" in value){
-                        document.getElementById("object").innerText = value.p;
-                    }
+            var resultsTable = document.getElementById("results-table");
 
-                    if ("o" in value){
-                        document.getElementById("object").innerText = value.o;
-                    }
-                });
+            data.response.forEach(function (value) {
+
+                var row = resultsTable.insertRow(0);
+
+                var subjectCell = row.insertCell(0);
+                var predicateCell = row.insertCell(1);
+                var objectCell = row.insertCell(2);
+
+                subjectCell.innerText += value.s;
+                if ("p" in value) {
+                    predicateCell.innerText += value.p;
+                }
+                if ("o" in value){
+                    objectCell.innerText += value.o;
+                }
+            });
         }
     </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -360,10 +367,18 @@ function sf(){document.f.s.focus();}
 </form>
 <p> Search Result :</p>
 </div>
-<div>
-   <div id="subject"></div>
-   <div id="predicate"></div>
-   <div id="object"></div>
-</div>
+<table border="1">
+    <thead>
+        <tr>
+            <td style="width:300px;">Subject</td>
+            <td style="width:300px;">Predicate</td>
+            <td>Object</td>
+        </tr>
+    </thead>
+    <tbody id="results-table">
+
+    </tbody>
+</table>
+</table>
 </body>
 </html>
