@@ -105,20 +105,26 @@ public class initBackend {
 
             ArrayList responsePred = getPredicate(newSubj,predicate);
             String resultQuery = null;
-            for(int i =responsePred.size()-1;i>=responsePred.size()-4;i--) {
-                if (responsePred.get(i).equals(subject)||responsePred.get(i).equals("abstraction")||responsePred.get(i).equals("abstract entity")
-                        || responsePred.get(i).equals("attribute")||responsePred.get(i).equals("physical property")||responsePred.get(i).equals("property")
-                        ||responsePred.get(i).equals("entity")||responsePred.get(i).equals("physical entity")){
-                    responsePred.remove(i);
+            if (responsePred.size() != 0) {
+                int predSize = responsePred.size();
+                if (predSize > 4){
+                    predSize -= 4;
                 }
-                if(resultQuery==""||resultQuery==null){
-                    try {
-                        resultQuery = query(returnObj, responsePred.get(i).toString());
-                    }catch (Exception e){
-                        e.printStackTrace();
+                for (int i = responsePred.size() - 1; i >= predSize; i--) {
+                    if (responsePred.get(i).equals(subject) || responsePred.get(i).equals("abstraction") || responsePred.get(i).equals("abstract entity")
+                            || responsePred.get(i).equals("attribute") || responsePred.get(i).equals("physical property") || responsePred.get(i).equals("property")
+                            || responsePred.get(i).equals("entity") || responsePred.get(i).equals("physical entity")) {
+                        responsePred.remove(i);
                     }
+                    if (resultQuery == "" || resultQuery == null) {
+                        try {
+                            resultQuery = query(returnObj, responsePred.get(i).toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                }else break;
+                    } else break;
+                }
             }
             if(resultQuery!=null && onlyMatch==true){
                 System.out.println(resultQuery+"  _______result_____");
