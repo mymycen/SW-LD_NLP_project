@@ -51,15 +51,15 @@
 
 
                     var subject = value.s.replace("<","").replace(">","");
-                    subjectCell.innerHTML = "<a href='" + subject + "'>" + subject + "</a>";
+                    subjectCell.innerHTML = "<a href='" + subject + "'target=_blank>" + subject + "</a>";
                     if ("p" in value) {
                         var predicate = value.p.replace("<","").replace(">","");
-                        predicateCell.innerHTML = "<a href='" + predicate + "'>" + predicate + "</a>";
+                        predicateCell.innerHTML = "<a href='" + predicate + "'target=_blank>" + predicate + "</a>";
                     }
                     if ("o" in value){
                         if (value.o.startsWith("<")){
                             var object = value.o.replace("<","").replace("> .","");
-                            objectCell.innerHTML = "<a href='" + object + "'>" + object + "</a>";
+                            objectCell.innerHTML = "<a href='" + object + "'target=_blank>" + object + "</a>";
                         } else{
                             objectCell.innerText += value.o;
                         }
